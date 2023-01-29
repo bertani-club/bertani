@@ -1,16 +1,14 @@
 package model;
 
-public class Crop {
+public class Season {
 
 	private int id;
 	private String name;
-	private int price;
 
-	public Crop(int id, String name, int price) {
+	public Season(int id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.price = price;
 	}
 
 	public int getId() {
@@ -27,14 +25,6 @@ public class Crop {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
 	}
 
 }

@@ -6,9 +6,18 @@ public class Helper {
 
 	Scanner scan = new Scanner(System.in);
 	
+	private static Helper instance;
+	
+	public static Helper getInstance() {
+		if(instance == null) {
+			instance = new Helper();
+		}
+		return instance;
+	}
+	
 	public void clearScreen() {
-		for (int i = 0; i < 33 ; i++) {
-			System.out.println();
+		for (int i = 0; i < 45 ; i++) {
+			System.out.println("");
 		}
 	}
 	

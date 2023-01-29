@@ -2,23 +2,43 @@ package model;
 
 public class Seed {
 
-	private String name;
+	private int id;
+	private int cropId;
+	private int seasonId;
 	private int price;
-	private int quantity;
-	
-	public Seed(String name, int price, int quantity) {
+	private int day;
+
+	public Seed(int id, int cropId, int seasonId, int price, int day) {
 		super();
-		this.name = name;
+		this.id = id;
+		this.cropId = cropId;
+		this.seasonId = seasonId;
 		this.price = price;
-		this.quantity = quantity;
+		this.day = day;
 	}
-	
-	public String getName() {
-		return name;
+
+	public int getId() {
+		return id;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getCropId() {
+		return cropId;
+	}
+
+	public void setCropId(int cropId) {
+		this.cropId = cropId;
+	}
+
+	public int getSeasonId() {
+		return seasonId;
+	}
+
+	public void setSeasonId(int seasonId) {
+		this.seasonId = seasonId;
 	}
 
 	public int getPrice() {
@@ -28,13 +48,13 @@ public class Seed {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	
-	public int getQuantity() {
-		return quantity;
+
+	public int getDay() {
+		return day;
 	}
-	
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+
+	public void setDay(int day) {
+		this.day = day;
 	}
 
 }
