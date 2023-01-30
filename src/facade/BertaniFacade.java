@@ -1,8 +1,10 @@
 package facade;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.Vector;
 
+import model.Crop;
 import model.User;
 import proxy.Connect;
 import proxy.Repository;
@@ -13,6 +15,7 @@ public class BertaniFacade {
 	Helper helper = Helper.getInstance();
 	Repository repo = Repository.getInstance();
 	Vector<User> user = new Vector<>();
+	Vector<Crop> crop = new Vector<>();
 	
 	private static BertaniFacade instance;
 	
@@ -130,7 +133,7 @@ public class BertaniFacade {
 		login();
 	}
 	
-	public void mainMenu(String name, String seasonName, int money, int day, int year) {
+	public void mainMenu(int id, String name, String seasonName, int money, int day, int year) {
 		
 		System.out.println("-----------------");
 		System.out.println("| HARVEST - SUN |");
@@ -160,7 +163,7 @@ public class BertaniFacade {
 			
 			break;
 		case 3:
-			
+			sellCrops(money, id);
 			break;
 		case 4:
 			
@@ -172,6 +175,46 @@ public class BertaniFacade {
 			login();
 			break;
 		}
+	}
+	
+	public void sellCrops(int money, int id) {
+		helper.printLine();
+        System.out.printf("| %-5s | %-15s | %-15s | %-15s |\n", "No.", "Crop", "Price", "You have");
+        helper.printLine();
+        for (Crop c : repo.getCrops(crop, id)) {
+            System.out.printf("| %-5d | %-15s | %-15d | %-15d |\n", c.getId(), c.getName(), c.getPrice(), c.getQuantity());
+        }
+        helper.printLine();
+        System.out.println();
+        
+        int cropsId = 0, cropsQuantity = 0, totalSell = 0;
+        
+        do {
+            System.out.print("Number of crops [1-12]: ");
+            cropsId = scan.nextInt();
+            scan.nextLine();        
+            if(cropsId > 12) {
+        		System.out.println("Invalid input.\n");
+        		continue;
+        	}
+        	else if(cropsId == 0) {
+        		return;
+        	}
+        }while(cropsId < 0 || cropsId > 12);
+        
+        for(Crop c : repo.getCrops(crop, id)) {
+    		if(cropsId == c.getId()) {
+    			do {
+					System.out.print("How many: ");
+					cropsQuantity = scan.nextInt();
+					scan.nextLine();
+				} while (cropsQuantity > c.getQuantity());
+    			totalSell = cropsQuantity * cropsId;
+    			money = money + totalSell;
+    			System.out.println("");
+    			System.out.println("Your plant have been sold!\n");
+    		}
+    	}
 	}
 	
 //	private void buySeedsMenu(int coin, int num, int qty, int totalPrice) {

@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import facade.BertaniFacade;
 import facade.Helper;
+import model.Crop;
 import model.User;
 
 public class Repository {
@@ -63,14 +64,15 @@ public class Repository {
 
 		try {
 			if (email != null && password != null) {
-				String query = String.format("SELECT s.name, u.name, email, password, money, day, year\n"
+				String query = String.format("SELECT u.id, s.name, u.name, email, password, money, day, year\n"
 						+ "FROM msuser u\n" + "LEFT JOIN msseason s ON s.id = u.season_id\n"
 						+ "WHERE email = '%s' AND password = '%s'", email, password);
 				var res = con.executeQuery(query);
 				String name, seasonName;
-				int money, day, year;
+				int id, money, day, year;
 				if (res.next()) {
-
+					
+					id = res.getInt("u.id");
 					name = res.getString("u.name");
 					seasonName = res.getString("s.name");
 					money = res.getInt("money");
@@ -81,7 +83,7 @@ public class Repository {
 					helper.pressToContinue();
 					helper.clearScreen();
 					BertaniFacade test = BertaniFacade.getInstance();
-					test.mainMenu(name, seasonName, money, day, year);
+					test.mainMenu(id, name, seasonName, money, day, year);
 				} else {
 					System.out.println("User not found");
 					helper.pressToContinue();
@@ -110,6 +112,37 @@ public class Repository {
 				+ "SET season_id = '%d', money = '%d', day = '%d', year = '%d'\r\n" + "WHERE id = '%d'", seasonId,
 				money, day, year);
 		con.executeUpdate(query);
+	}
+	
+	public Vector<Crop> getCrops(Vector<Crop> crop, int userId) {
+		crop.clear();
+
+        Connect con = Connect.getConnection();
+
+        String cropName;
+        int cropId, cropPrice, cropQuantity;
+
+        try {
+
+            String query = String.format("SELECT mc.id, mc.name, mc.price, mcs.quantity\n"
+                    + "FROM mscrop mc\n"
+            		+ "LEFT JOIN mscropstorage mcs on mcs.crop_id = mc.id\n"
+                    + "WHERE mcs.user_id = '%d'", userId );
+            var res = con.executeQuery(query);
+
+            while (res.next()) {
+                cropId = res.getInt("mc.id");
+                cropName = res.getString("mc.name");
+                cropPrice = res.getInt("mc.price");
+                cropQuantity = res.getInt("mcs.quantity");
+                crop.add(new Crop(cropId, cropName, cropPrice, cropQuantity));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return crop;
 	}
 
 }

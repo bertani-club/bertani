@@ -25,5 +25,12 @@ public class Helper {
 		System.out.println("Press enter to continue...");
 		scan.nextLine();
 	}
+	
+	public void printLine() {
+        for(int i=0; i<63; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+    }
 
 }

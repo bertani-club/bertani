@@ -5,12 +5,14 @@ public class Crop {
 	private int id;
 	private String name;
 	private int price;
+	private int quantity;
 
-	public Crop(int id, String name, int price) {
+	public Crop(int id, String name, int price, int quantity) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
+		this.quantity = quantity;
 	}
 
 	public int getId() {
@@ -35,6 +37,14 @@ public class Crop {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 }
